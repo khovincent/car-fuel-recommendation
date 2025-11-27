@@ -169,13 +169,39 @@ else:
                 # Predict
                 prediction, img_reshape = import_and_predict(image, model)
                 
+                # Calculate scores
                 score = tf.nn.softmax(prediction[0])
                 confidence = np.max(score) * 100
                 class_index = np.argmax(score)
                 predicted_class = CLASS_NAMES[class_index]
 
+                # --- Main Result ---
                 st.success(f"Prediction: **{predicted_class}**")
-                st.info(f"Confidence: **{confidence:.2f}%**")
+                st.info(f"Top Confidence: **{confidence:.2f}%**")
+
+                # --- NEW: Confidence Breakdown Section ---
+                st.markdown("### 📊 Confidence Breakdown")
+                
+                # Convert tensor to numpy array for easier handling
+                probs = score.numpy() 
+                
+                # Loop through all classes to show their individual scores
+                for i, class_name in enumerate(CLASS_NAMES):
+                    # Calculate percentage
+                    probability = probs[i] * 100 
+                    
+                    # Create two columns: one for text, one for the bar
+                    col_text, col_bar = st.columns([1, 2])
+                    
+                    with col_text:
+                        st.write(f"**{class_name}**")
+                        st.caption(f"{probability:.2f}%")
+                    
+                    with col_bar:
+                        # st.progress requires an integer between 0 and 100
+                        st.progress(int(probability))
+
+                st.write("---") # Divider line
 
                 # --- Grad-CAM Logic ---
                 st.markdown("### 🔍 AI Explanation (Grad-CAM)")
@@ -184,17 +210,13 @@ else:
                 heatmap = make_gradcam_heatmap(img_reshape, model, 'top_activation', pred_index=class_index)
                 
                 if heatmap is not None:
-                    # Get BOTH images from the updated function
                     overlay_img, raw_heatmap_img = display_gradcam(image, heatmap)
                     
-                    # Create two columns to display them side-by-side
                     col1, col2 = st.columns(2)
-                    
                     with col1:
-                        st.image(overlay_img, caption=f"Overlay", width="stretch")
-                    
+                        st.image(overlay_img, caption="Overlay", use_column_width=True)
                     with col2:
-                        st.image(raw_heatmap_img, caption=f"Raw Heatmap", width="stretch")
+                        st.image(raw_heatmap_img, caption="Raw Heatmap", use_column_width=True)
 
                 else:
                     st.warning("Could not generate heatmap. (Layer not found)")
