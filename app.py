@@ -7,7 +7,7 @@ import matplotlib.cm as cm
 
 # --- Configuration ---
 CLASS_NAMES = ['Pertalite', 'Pertamax', 'Pertamax Turbo'] 
-MODEL_PATH = 'modeleffi.keras'
+MODEL_PATH = 'fine_tuning_best.keras'
 
 # --- Page Setup ---
 st.set_page_config(
