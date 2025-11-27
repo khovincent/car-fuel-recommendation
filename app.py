@@ -7,11 +7,11 @@ import matplotlib.cm as cm
 
 # --- Configuration ---
 CLASS_NAMES = ['Pertalite', 'Pertamax', 'Pertamax Turbo'] 
-MODEL_PATH = 'fine_tuning_best.keras'
+MODEL_PATH = 'modeleffi.keras'
 
 # --- Page Setup ---
 st.set_page_config(
-    page_title="Car Gas Type Classifier + Grad-CAM",
+    page_title="Car Gas Type Recommendation + Grad-CAM",
     page_icon="🚗",
     layout="centered"
 )
