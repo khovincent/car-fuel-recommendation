@@ -149,8 +149,8 @@ def import_and_predict(image_data, model):
     return prediction, img_reshape
 
 # --- User Interface ---
-st.title("🚗 Car Gas Type Predictor")
-st.markdown("Upload an image of a car to predict its fuel type and see **Grad-CAM heatmaps**.")
+st.title("🚗 Car Gas Type Recommendator")
+st.markdown("Upload an image of a car to recommend its fuel type and see **Grad-CAM heatmaps**.")
 
 file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
 
